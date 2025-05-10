@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/main.tsx","./src/plotly.d.ts","./src/vite-env.d.ts","./src/components/errorboundary.tsx","./src/pages/dashboard.tsx","./src/pages/form.tsx","./src/pages/home.tsx"],"version":"5.8.3"}
