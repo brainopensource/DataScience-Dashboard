@@ -22,7 +22,7 @@ async function startElectronDev() {
       stdio: 'inherit',
       env: {
         ...process.env,
-        VITE_DEV_SERVER_URL: 'http://localhost:3000',
+        VITE_DEV_SERVER_URL: 'http://localhost:5173',
       },
       shell: true, // Use shell to ensure proper execution on Windows
     });

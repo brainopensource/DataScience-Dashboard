@@ -1,2 +1,2 @@
 @echo off
-npm run electron:dev
+cmd /k "npm run electron:dev"

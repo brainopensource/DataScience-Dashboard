@@ -20,7 +20,7 @@ function createWindow() {
   const startUrl = process.env.VITE_DEV_SERVER_URL || 
     (app.isPackaged
       ? `file://${path.join(__dirname, '../dist/index.html')}`
-      : 'http://localhost:3000');
+      : 'http://localhost:5173'); // Vite's default port is 5173
 
   console.log('Loading URL:', startUrl);
   console.log('Is Packaged:', app.isPackaged);

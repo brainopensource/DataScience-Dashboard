@@ -1,2 +1,2 @@
 npm install
-npm install --save-dev electron
+npm install --save-dev electron @types/electron typescript vite
