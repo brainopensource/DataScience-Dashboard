@@ -1,7 +1,7 @@
 {
   "name": "electron-react-app",
+  "version": "0.1.0",
   "private": true,
-  "version": "0.0.0",
   "description": "Electron React Application",
   "author": {
     "name": "Your Name",
@@ -9,9 +9,9 @@
   },
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
+    "dev": "node scripts/dev.js",
+    "build": "node scripts/build.js",
+    "lint": "eslint --ext .ts,.tsx src",
     "preview": "vite preview",
     "electron:dev": "electron .",
     "electron:build": "electron-builder",
@@ -19,7 +19,7 @@
     "package:mac": "npm run build && electron-builder --mac",
     "package:linux": "npm run build && electron-builder --linux"
   },
-  "main": "electron/main.js",
+  "main": "dist-electron/main.js",
   "build": {
     "appId": "com.yourcompany.electronreactapp",
     "productName": "Electron React App",
@@ -45,26 +45,27 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
-    "@tanstack/react-query": "^5.75.7",
-    "plotly.js-dist-min": "^3.0.1",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "react-router-dom": "^7.6.0",
-    "zustand": "^5.0.4"
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.15.10",
+    "@mui/material": "^5.15.10",
+    "@tanstack/react-query": "^5.20.5",
+    "axios": "^1.6.7",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.22.1"
   },
   "devDependencies": {
-    "@eslint/js": "^9.25.0",
-    "@types/react": "^19.1.2",
-    "@types/react-dom": "^19.1.2",
-    "@vitejs/plugin-react": "^4.4.1",
-    "electron": "^36.2.0",
-    "electron-builder": "^26.0.12",
-    "eslint": "^9.25.0",
-    "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-react-refresh": "^0.4.19",
-    "globals": "^16.0.0",
-    "typescript": "~5.8.3",
-    "typescript-eslint": "^8.30.1",
-    "vite": "^6.3.5"
+    "@types/react": "^18.2.55",
+    "@types/react-dom": "^18.2.19",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "electron": "^28.2.3",
+    "eslint": "^8.56.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "typescript": "^5.2.2",
+    "vite": "^5.1.0"
   }
 }

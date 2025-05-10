@@ -2,12 +2,12 @@ import { Suspense, lazy } from 'react';
 import { HashRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import ErrorBoundary from './components/ErrorBoundary';
-import './App.css';
+import './styles/components/App.css';
 
 // Lazy-loaded pages
-const Home = lazy(() => import('./pages/Home'));
-const Form = lazy(() => import('./pages/Form'));
-const Dashboard = lazy(() => import('./pages/Dashboard'));
+const Home = lazy(() => import('./pages/Home/Home'));
+const Form = lazy(() => import('./pages/Form/Form'));
+const Dashboard = lazy(() => import('./pages/Dashboard/Dashboard'));
 
 // Create a QueryClient instance
 const queryClient = new QueryClient({

@@ -28,7 +28,7 @@ function createWindow() {
   win.loadURL(startUrl);
 
   // Always open DevTools for troubleshooting
-  win.webContents.openDevTools();
+  //win.webContents.openDevTools();
 }
 
 app.whenReady().then(createWindow);
