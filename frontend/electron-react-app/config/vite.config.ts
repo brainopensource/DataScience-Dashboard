@@ -13,10 +13,31 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, '../index.html'),
       },
+      output: {
+        manualChunks: {
+          'plotly': ['plotly.js-dist-min'],
+          'vendor': [
+            'react',
+            'react-dom',
+            'react-router-dom',
+            '@mui/material',
+            '@mui/icons-material',
+            '@emotion/react',
+            '@emotion/styled'
+          ],
+        },
+      },
     },
+    chunkSizeWarningLimit: 1000, // Increase the warning limit to 1000kb
   },
   server: {
     port: 5173,
+    open: true, // Automatically open browser
+    host: true, // Listen on all addresses
+    strictPort: true, // Exit if port is in use
+    hmr: {
+      overlay: true, // Show errors as overlay
+    },
   },
   resolve: {
     alias: {
@@ -32,5 +53,13 @@ export default defineConfig({
       '@types': resolve(__dirname, '../src/types'),
       '@config': resolve(__dirname, '../config'),
     },
+  },
+  optimizeDeps: {
+    include: ['plotly.js-dist-min'],
+    exclude: ['electron'],
+  },
+  define: {
+    'process.env': {},
+    'global': 'globalThis',
   },
 }); 

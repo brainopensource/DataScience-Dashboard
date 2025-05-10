@@ -1,4 +1,4 @@
-declare module 'plotly.js' {
+declare module 'plotly.js-dist-min' {
   export interface PlotData {
     type?: string;
     x?: any[];

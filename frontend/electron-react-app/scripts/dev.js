@@ -12,8 +12,18 @@ async function startDevServer() {
       configFile: resolve(__dirname, '../config/vite.config.ts'),
       mode: 'development',
     });
+
     await server.listen();
-    console.log('Dev server started successfully!');
+
+    // Get the server URL and port
+    const serverUrl = `http://localhost:${server.config.server.port}`;
+    const networkUrl = `http://${server.config.server.host}:${server.config.server.port}`;
+
+    console.log('\n🚀 Vite dev server started successfully!');
+    console.log(`📡 Local:   ${serverUrl}`);
+    console.log(`🌐 Network: ${networkUrl}`);
+    console.log('\n📝 Press Ctrl+C to stop the server\n');
+
   } catch (error) {
     console.error('Failed to start dev server:', error);
     process.exit(1);

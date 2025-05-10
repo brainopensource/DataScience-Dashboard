@@ -13,16 +13,24 @@ async function startElectronDev() {
     const server = await createServer({
       configFile: resolve(__dirname, '../config/vite.config.ts'),
       mode: 'development',
+      server: {
+        port: 5174, // Use a different port for Electron
+      },
     });
     await server.listen();
-    console.log('Vite dev server started successfully!');
+    
+    // Get the server URL and port
+    const serverUrl = `http://localhost:${server.config.server.port}`;
+    console.log('\n🚀 Electron dev server started successfully!');
+    console.log(`📡 Server running at: ${serverUrl}`);
+    console.log('📝 Press Ctrl+C to stop the server\n');
 
     // Use npx to run electron
     const electronProcess = spawn('npx', ['electron', '.'], {
       stdio: 'inherit',
       env: {
         ...process.env,
-        VITE_DEV_SERVER_URL: 'http://localhost:5173',
+        VITE_DEV_SERVER_URL: serverUrl,
       },
       shell: true, // Use shell to ensure proper execution on Windows
     });

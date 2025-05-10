@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import Plotly from 'plotly.js';
+import Plotly from 'plotly.js-dist-min';
 
 const Dashboard: React.FC = () => {
   const sinPlotRef = useRef<HTMLDivElement>(null);
