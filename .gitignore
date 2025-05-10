@@ -37,3 +37,6 @@ logs
 # OS generated files
 .DS_Store
 Thumbs.db
+
+# Ignore package-lock.json inside frontend/electron-react-app
+frontend/electron-react-app/package-lock.json
