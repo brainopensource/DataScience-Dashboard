@@ -11,15 +11,16 @@ function createWindow() {
     height: 800,
     webPreferences: {
       nodeIntegration: true,
-      contextIsolation: false
+      contextIsolation: true,
+      preload: path.join(__dirname, 'preload/preload.js')
     }
   });
 
   // Determine the correct URL based on environment
-  const startUrl = process.env.ELECTRON_START_URL || 
+  const startUrl = process.env.VITE_DEV_SERVER_URL || 
     (app.isPackaged
       ? `file://${path.join(__dirname, '../dist/index.html')}`
-      : 'http://localhost:5173');
+      : 'http://localhost:3000');
 
   console.log('Loading URL:', startUrl);
   console.log('Is Packaged:', app.isPackaged);
@@ -27,8 +28,10 @@ function createWindow() {
 
   win.loadURL(startUrl);
 
-  // Always open DevTools for troubleshooting
-  //win.webContents.openDevTools();
+  // Open DevTools in development
+  if (!app.isPackaged) {
+    win.webContents.openDevTools();
+  }
 }
 
 app.whenReady().then(createWindow);

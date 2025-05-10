@@ -2,24 +2,24 @@
   "name": "electron-react-app",
   "version": "0.1.0",
   "private": true,
-  "description": "Electron React Application",
+  "description": "React FastAPIApplication",
   "author": {
-    "name": "Your Name",
-    "email": "your.email@example.com"
+    "name": "LRocha",
+    "email": "rochasaitama@hotmail.com"
   },
   "type": "module",
+  "main": "electron/main.js",
   "scripts": {
     "dev": "node scripts/dev.js",
     "build": "node scripts/build.js",
     "lint": "eslint --ext .ts,.tsx src",
     "preview": "vite preview",
-    "electron:dev": "electron .",
+    "electron:dev": "node scripts/electron-dev.js",
     "electron:build": "electron-builder",
     "package:win": "npm run build && electron-builder --win --x64",
     "package:mac": "npm run build && electron-builder --mac",
     "package:linux": "npm run build && electron-builder --linux"
   },
-  "main": "dist-electron/main.js",
   "build": {
     "appId": "com.yourcompany.electronreactapp",
     "productName": "Electron React App",
@@ -51,6 +51,7 @@
     "@mui/material": "^5.15.10",
     "@tanstack/react-query": "^5.20.5",
     "axios": "^1.6.7",
+    "plotly.js-dist": "^3.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.1"
@@ -58,14 +59,14 @@
   "devDependencies": {
     "@types/react": "^18.2.55",
     "@types/react-dom": "^18.2.19",
-    "@typescript-eslint/eslint-plugin": "^6.21.0",
-    "@typescript-eslint/parser": "^6.21.0",
+    "@typescript-eslint/eslint-plugin": "^8.32.0",
+    "@typescript-eslint/parser": "^8.32.0",
     "@vitejs/plugin-react": "^4.2.1",
-    "electron": "^28.2.3",
-    "eslint": "^8.56.0",
-    "eslint-plugin-react": "^7.33.2",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "typescript": "^5.2.2",
-    "vite": "^5.1.0"
+    "electron": "^28.3.3",
+    "eslint": "^9.26.0",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.5"
   }
 }
