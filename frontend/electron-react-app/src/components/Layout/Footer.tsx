@@ -3,23 +3,31 @@ import { styled, useTheme } from '@mui/material/styles';
 import { AppBar, Toolbar, Typography, Box } from '@mui/material';
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
-  backgroundColor: theme.palette.background.paper,
+  backgroundColor: '#030510',
   height: '60px',
   top: 'auto',
   bottom: 0,
-  boxShadow: '0 -2px 4px rgba(0,0,0,0.1)',
+  boxShadow: 'none',
+  borderTop: 'none',
 }));
 
 const StyledToolbar = styled(Toolbar)({
   minHeight: '60px',
   padding: '0 20px',
+  backgroundColor: '#030510',
 });
 
 const Footer = () => {
   return (
     <StyledAppBar position="fixed">
       <StyledToolbar>
-        <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'center' }}>
+        <Box sx={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          width: '100%', 
+          justifyContent: 'center',
+          backgroundColor: '#030510',
+        }}>
           <Typography 
             variant="body2" 
             sx={{ 
