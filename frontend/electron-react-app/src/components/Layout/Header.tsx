@@ -3,8 +3,9 @@ import { styled, useTheme } from '@mui/material/styles';
 
 const HeaderContainer = styled('header')(({ theme }) => ({
   height: '60px',
-  backgroundColor: theme.palette.background.paper,
-  color: theme.palette.primary.main,
+  backgroundColor: '#1a1a1a', // Dark gray, almost black
+  color: theme.palette.primary.main, // Blue color from theme
+  WebkitAppRegion: 'drag', // Makes the header draggable
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',

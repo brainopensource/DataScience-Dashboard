@@ -9,6 +9,9 @@ function createWindow() {
   const win = new BrowserWindow({
     width: 1200,
     height: 800,
+    frame: false,
+    titleBarStyle: 'hidden',
+    backgroundColor: '#000000',
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: true,
@@ -16,11 +19,12 @@ function createWindow() {
     }
   });
 
-  // Determine the correct URL based on environment
+  win.setMenu(null);
+
   const startUrl = process.env.VITE_DEV_SERVER_URL || 
     (app.isPackaged
       ? `file://${path.join(__dirname, '../dist/index.html')}`
-      : 'http://localhost:5174'); // Updated to match electron-dev.js port
+      : 'http://localhost:5174');
 
   console.log('Loading URL:', startUrl);
   console.log('Is Packaged:', app.isPackaged);
@@ -28,7 +32,6 @@ function createWindow() {
 
   win.loadURL(startUrl);
 
-  // Open DevTools in development
   if (!app.isPackaged) {
     win.webContents.openDevTools();
   }
