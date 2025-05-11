@@ -1,48 +1,41 @@
-import { Suspense, lazy } from 'react';
-import { HashRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import ErrorBoundary from './components/ErrorBoundary';
-import './styles/components/App.css';
+import React, { Suspense } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import Layout from './components/Layout/Layout';
+import ErrorBoundary from './components/common/ErrorBoundary';
+import theme from './theme';
+import { getPages } from './config/pages';
+import { PageLoadingFallback } from './config/pages';
 
-// Lazy-loaded pages
-const Home = lazy(() => import('./pages/Home/Home'));
-const Form = lazy(() => import('./pages/Form/Form'));
-const Dashboard = lazy(() => import('./pages/Dashboard/Dashboard'));
+const App: React.FC = () => {
+  const pages = getPages();
+  const DefaultPage = pages[0].component;
 
-// Create a QueryClient instance
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      gcTime: 1000 * 60 * 30, // 30 minutes
-      staleTime: 1000 * 60 * 10, // 10 minutes
-    },
-  },
-});
-
-function App() {
   return (
     <ErrorBoundary>
-      <QueryClientProvider client={queryClient}>
-        <Router>
-          <div className='app-container'>
-            <nav>
-              <Link to='/'>Home</Link>
-              <Link to='/form'>Form</Link>
-              <Link to='/dashboard'>Dashboard</Link>
-            </nav>
-            <Suspense fallback={<div>Loading...</div>}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+          <Layout>
+            <Suspense fallback={<PageLoadingFallback />}>
               <Routes>
-                <Route path='/' element={<Home />} />
-                <Route path='/form' element={<Form />} />
-                <Route path='/dashboard' element={<Dashboard />} />
-                <Route path='*' element={<Navigate to='/' replace />} />
+                {pages.map(({ path, component: Component }) => (
+                  <Route
+                    key={path}
+                    path={path}
+                    element={<Component />}
+                  />
+                ))}
+                {/* Fallback route */}
+                <Route path="*" element={<DefaultPage />} />
               </Routes>
             </Suspense>
-          </div>
+          </Layout>
         </Router>
-      </QueryClientProvider>
+      </ThemeProvider>
     </ErrorBoundary>
   );
-}
+};
 
 export default App;

@@ -1,36 +1,60 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const isDev = process.env.NODE_ENV === 'development';
+
+let mainWindow;
 
 function createWindow() {
-  const win = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
+    frame: false,
+    titleBarStyle: 'hidden',
+    backgroundColor: '#000000',
     webPreferences: {
-      nodeIntegration: true,
+      nodeIntegration: false,
       contextIsolation: true,
-      preload: path.join(__dirname, 'preload/preload.js')
+      preload: path.join(__dirname, 'preload/preload.js'),
+      webSecurity: false // Allow loading local resources
     }
   });
 
-  // Determine the correct URL based on environment
-  const startUrl = process.env.VITE_DEV_SERVER_URL || 
-    (app.isPackaged
-      ? `file://${path.join(__dirname, '../dist/index.html')}`
-      : 'http://localhost:5174'); // Updated to match electron-dev.js port
+  // Remove menu bar
+  mainWindow.setMenu(null);
 
-  console.log('Loading URL:', startUrl);
-  console.log('Is Packaged:', app.isPackaged);
-  console.log('__dirname:', __dirname);
+  // Load the app
+  if (isDev) {
+    // Try to load from Vite dev server
+    const devUrl = 'http://localhost:5174';
+    mainWindow.loadURL(devUrl).catch((err) => {
+      console.error('Failed to load dev server:', err);
+      // Fallback to local file if dev server is not available
+      mainWindow.loadFile(path.join(__dirname, '../dist/index.html'));
+    });
+  } else {
+    mainWindow.loadFile(path.join(__dirname, '../dist/index.html'));
+  }
 
-  win.loadURL(startUrl);
+  // Handle window load errors
+  mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription) => {
+    console.error('Failed to load:', errorCode, errorDescription);
+    if (isDev) {
+      console.log('Attempting to reload from dev server...');
+      mainWindow.loadURL('http://localhost:5174');
+    }
+  });
 
-  // Open DevTools in development
-  if (!app.isPackaged) {
-    win.webContents.openDevTools();
+  // Add keyboard shortcut for DevTools in development
+  if (isDev) {
+    mainWindow.webContents.on('before-input-event', (event, input) => {
+      if (input.control && input.key.toLowerCase() === 'i') {
+        mainWindow.webContents.toggleDevTools();
+      }
+    });
   }
 }
 

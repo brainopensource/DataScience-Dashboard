@@ -15,7 +15,6 @@ export default defineConfig({
       },
       output: {
         manualChunks: {
-          'plotly': ['plotly.js-dist-min'],
           'vendor': [
             'react',
             'react-dom',
@@ -28,7 +27,9 @@ export default defineConfig({
         },
       },
     },
-    chunkSizeWarningLimit: 1000, // Increase the warning limit to 1000kb
+    chunkSizeWarningLimit: 1000,
+    minify: 'esbuild',
+    target: 'esnext'
   },
   server: {
     port: 5173,
@@ -55,7 +56,7 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
-    include: ['plotly.js-dist-min'],
+    include: ['react', 'react-dom', 'react-router-dom'],
     exclude: ['electron'],
   },
   define: {
