@@ -1,26 +1,46 @@
-import { lazy } from 'react';
+import React from 'react';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import HomeIcon from '@mui/icons-material/Home';
 import FormIcon from '@mui/icons-material/Description';
+import { lazyLoad } from '../utils/lazyLoad';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
-// Lazy load all pages
+// Loading component for lazy-loaded pages
+const PageLoadingFallback: React.FC = () => (
+  <Box
+    display="flex"
+    justifyContent="center"
+    alignItems="center"
+    minHeight="100vh"
+  >
+    <CircularProgress color="primary" />
+  </Box>
+);
+
+// Lazy load all pages with loading fallback
 const pages = {
   home: {
     path: '/',
-    component: lazy(() => import('../pages/Home/Home')),
+    component: lazyLoad(() => import('../pages/Home/Home'), {
+      fallback: <PageLoadingFallback />,
+    }),
     title: 'Home',
     icon: HomeIcon,
-    exact: true,
   },
   dashboard: {
     path: '/dashboard',
-    component: lazy(() => import('../pages/Dashboard/Dashboard')),
+    component: lazyLoad(() => import('../pages/Dashboard/Dashboard'), {
+      fallback: <PageLoadingFallback />,
+    }),
     title: 'Dashboard',
     icon: DashboardIcon,
   },
   form: {
     path: '/form',
-    component: lazy(() => import('../pages/Form/Form')),
+    component: lazyLoad(() => import('../pages/Form/Form'), {
+      fallback: <PageLoadingFallback />,
+    }),
     title: 'Form',
     icon: FormIcon,
   },
@@ -29,10 +49,9 @@ const pages = {
 // Type for page configuration
 export type PageConfig = {
   path: string;
-  component: React.LazyExoticComponent<React.ComponentType<any>>;
+  component: ReturnType<typeof lazyLoad>;
   title: string;
   icon: React.ComponentType<any>;
-  exact?: boolean;
 };
 
 // Type for page keys

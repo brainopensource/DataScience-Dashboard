@@ -17,8 +17,16 @@ const MainContent = styled('main', {
   bottom: '60px',
   padding: theme.spacing(3),
   backgroundColor: theme.palette.background.default,
-  color: theme.palette.primary.main,
+  color: theme.palette.text.primary,
   overflowY: 'auto',
+  transition: theme.transitions.create(['left'], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  '& > *': {
+    height: '100%',
+    width: '100%',
+  },
 }));
 
 const ContentWrapper = styled('div')({
@@ -27,6 +35,7 @@ const ContentWrapper = styled('div')({
   display: 'flex',
   flexDirection: 'column',
   backgroundColor: '#000000',
+  overflow: 'hidden',
 });
 
 const HeaderWrapper = styled('div')({

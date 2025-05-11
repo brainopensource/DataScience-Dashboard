@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { styled, useTheme } from '@mui/material/styles';
 import { 
@@ -10,7 +10,7 @@ import {
   Drawer,
   useMediaQuery,
 } from '@mui/material';
-import { getPages } from '../../config/pages';
+import { getPages, getPage } from '../../config/pages';
 
 const DRAWER_WIDTH = 240;
 
@@ -27,6 +27,7 @@ const StyledDrawer = styled(Drawer)(({ theme }) => ({
     height: 'calc(100% - 120px)', // Account for header and footer
     position: 'fixed',
     zIndex: theme.zIndex.drawer,
+    overflowX: 'hidden',
   },
 }));
 
@@ -55,6 +56,7 @@ const StyledLink = styled(Link)({
   textDecoration: 'none',
   color: 'inherit',
   width: '100%',
+  display: 'block',
 });
 
 interface SidebarProps {
@@ -68,13 +70,25 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
   const location = useLocation();
   const pages = getPages();
 
+  // Preload route when hovering over a menu item
+  const handleMouseEnter = useCallback((path: string) => {
+    const page = getPage(path as any);
+    if (page?.component?.preload) {
+      page.component.preload();
+    }
+  }, []);
+
   const drawer = (
     <>
       <Logo>React FastAPI</Logo>
       <List>
         {pages.map(({ path, title, icon: Icon }) => (
           <ListItem key={path} disablePadding>
-            <StyledLink to={path} onClick={isMobile ? onClose : undefined}>
+            <StyledLink 
+              to={path} 
+              onClick={isMobile ? onClose : undefined}
+              onMouseEnter={() => handleMouseEnter(path)}
+            >
               <StyledListItemButton selected={location.pathname === path}>
                 <ListItemIcon sx={{ color: 'inherit' }}>
                   <Icon />
@@ -104,7 +118,13 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
   }
 
   return (
-    <StyledDrawer variant="permanent" open>
+    <StyledDrawer 
+      variant="permanent" 
+      open={isOpen}
+      sx={{
+        display: { xs: 'none', md: 'block' },
+      }}
+    >
       {drawer}
     </StyledDrawer>
   );
