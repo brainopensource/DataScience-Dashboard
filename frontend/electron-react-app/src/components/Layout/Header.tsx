@@ -1,27 +1,24 @@
 import React from 'react';
 import { styled, useTheme } from '@mui/material/styles';
+import { AppBar, Toolbar } from '@mui/material';
 
-const HeaderContainer = styled('header')(({ theme }) => ({
-  height: '60px',
-  backgroundColor: '#1a1a1a', // Dark gray, almost black
-  color: theme.palette.primary.main, // Blue color from theme
-  WebkitAppRegion: 'drag', // Makes the header draggable
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  padding: '0 20px',
-  position: 'fixed',
-  top: 0,
-  right: 0,
-  left: 0,
-  zIndex: 1000,
+const StyledAppBar = styled(AppBar)(({ theme }) => ({
+  backgroundColor: '#000000',
+  height: '30px',
+  WebkitAppRegion: 'drag',
+  boxShadow: 'none',
 }));
+
+const StyledToolbar = styled(Toolbar)({
+  minHeight: '30px',
+  padding: '0 20px',
+});
 
 const Header = () => {
   return (
-    <HeaderContainer>
-      <h1>One Header</h1>
-    </HeaderContainer>
+    <StyledAppBar position="fixed">
+      <StyledToolbar />
+    </StyledAppBar>
   );
 };
 

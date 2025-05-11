@@ -1,26 +1,37 @@
 import React from 'react';
 import { styled, useTheme } from '@mui/material/styles';
+import { AppBar, Toolbar, Typography, Box } from '@mui/material';
 
-const FooterContainer = styled('footer')(({ theme }) => ({
-  height: '60px',
+const StyledAppBar = styled(AppBar)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
-  color: theme.palette.primary.main,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  padding: '0 20px',
-  position: 'fixed',
+  height: '60px',
+  top: 'auto',
   bottom: 0,
-  right: 0,
-  left: 0,
-  zIndex: 1000,
+  boxShadow: '0 -2px 4px rgba(0,0,0,0.1)',
 }));
+
+const StyledToolbar = styled(Toolbar)({
+  minHeight: '60px',
+  padding: '0 20px',
+});
 
 const Footer = () => {
   return (
-    <FooterContainer>
-      <p>One Footer</p>
-    </FooterContainer>
+    <StyledAppBar position="fixed">
+      <StyledToolbar>
+        <Box sx={{ display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'center' }}>
+          <Typography 
+            variant="body2" 
+            sx={{ 
+              color: 'primary.main',
+              fontWeight: 500
+            }}
+          >
+            © 2024 React FastAPI
+          </Typography>
+        </Box>
+      </StyledToolbar>
+    </StyledAppBar>
   );
 };
 

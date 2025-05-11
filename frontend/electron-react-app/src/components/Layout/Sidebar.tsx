@@ -9,7 +9,10 @@ import {
   ListItemButton,
   Drawer,
   useMediaQuery,
+  IconButton,
+  Box,
 } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
 import { getPages, getPage } from '../../config/pages';
 
 const DRAWER_WIDTH = 240;
@@ -22,22 +25,25 @@ const StyledDrawer = styled(Drawer)(({ theme }) => ({
     boxSizing: 'border-box',
     backgroundColor: theme.palette.background.paper,
     borderRight: `1px solid ${theme.palette.divider}`,
-    top: '60px', // Height of header
+    top: '108px', // 60px header + 48px navbar
     bottom: '60px', // Height of footer
-    height: 'calc(100% - 120px)', // Account for header and footer
+    height: 'calc(100% - 168px)', // Account for header (60px), navbar (48px), and footer (60px)
     position: 'fixed',
     zIndex: theme.zIndex.drawer,
     overflowX: 'hidden',
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
   },
 }));
 
-const Logo = styled('div')(({ theme }) => ({
-  padding: theme.spacing(2),
-  fontSize: '1.5rem',
-  fontWeight: 'bold',
-  textAlign: 'center',
-  marginBottom: theme.spacing(2),
+const MenuButton = styled(IconButton)(({ theme }) => ({
+  margin: theme.spacing(1),
   color: theme.palette.primary.main,
+  '&:hover': {
+    backgroundColor: theme.palette.action.hover,
+  },
 }));
 
 const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
@@ -78,9 +84,17 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
     }
   }, []);
 
+  const handleMenuClick = () => {
+    onClose(); // This will toggle the sidebar state
+  };
+
   const drawer = (
     <>
-      <Logo>React FastAPI</Logo>
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', py: 1 }}>
+        <MenuButton onClick={handleMenuClick} aria-label="menu">
+          <MenuIcon />
+        </MenuButton>
+      </Box>
       <List>
         {pages.map(({ path, title, icon: Icon }) => (
           <ListItem key={path} disablePadding>
@@ -123,6 +137,14 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
       open={isOpen}
       sx={{
         display: { xs: 'none', md: 'block' },
+        '& .MuiDrawer-paper': {
+          width: isOpen ? DRAWER_WIDTH : theme.spacing(7),
+          overflowX: 'hidden',
+          transition: theme.transitions.create(['width', 'margin'], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.enteringScreen,
+          }),
+        },
       }}
     >
       {drawer}
