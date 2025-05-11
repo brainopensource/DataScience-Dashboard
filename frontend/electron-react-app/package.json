@@ -2,7 +2,7 @@
   "name": "electron-react-app",
   "version": "0.1.0",
   "private": true,
-  "description": "React FastAPIApplication",
+  "description": "React FastAPI Application",
   "author": {
     "name": "LRocha",
     "email": "rochasaitama@hotmail.com"
@@ -16,9 +16,7 @@
     "preview": "vite preview",
     "electron:dev": "node scripts/electron-dev.js",
     "electron:build": "electron-builder",
-    "package:win": "electron-builder --win --x64",
-    "package:mac": "npm run build && electron-builder --mac",
-    "package:linux": "npm run build && electron-builder --linux"
+    "package:win": "electron-builder --win --x64"
   },
   "build": {
     "appId": "com.yourcompany.electronreactapp",
@@ -32,9 +30,7 @@
         "nsis",
         "portable"
       ],
-      "icon": "build/icon.ico",
-      "signAndEditExecutable": false,
-      "forceCodeSigning": false
+      "icon": "build/icon.ico"
     },
     "nsis": {
       "oneClick": false,
@@ -49,27 +45,8 @@
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.15.10",
     "@mui/material": "^5.15.10",
-    "@tanstack/react-query": "^5.20.5",
-    "axios": "^1.6.7",
-    "buffer": "^6.0.3",
-    "plotly.js-dist": "^3.0.1",
-    "process": "^0.11.10",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.1"
-  },
-  "devDependencies": {
-    "@types/electron": "^1.4.38",
-    "@types/react": "^18.2.55",
-    "@types/react-dom": "^18.2.19",
-    "@typescript-eslint/eslint-plugin": "^8.32.0",
-    "@typescript-eslint/parser": "^8.32.0",
-    "@vitejs/plugin-react": "^4.2.1",
-    "electron": "^28.3.3",
-    "eslint": "^9.26.0",
-    "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^5.2.0",
-    "typescript": "^5.8.3",
-    "vite": "^6.3.5"
   }
 }
