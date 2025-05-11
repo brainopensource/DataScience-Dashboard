@@ -5,6 +5,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import Layout from './components/Layout/Layout';
+import ErrorBoundary from './components/common/ErrorBoundary';
 import theme from './theme';
 import { getPages } from './config/pages';
 
@@ -22,29 +23,31 @@ const LoadingFallback = () => (
 
 const App: React.FC = () => {
   const pages = getPages();
+  const DefaultPage = pages[0].component;
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Router>
-        <Layout>
-          <Suspense fallback={<LoadingFallback />}>
-            <Routes>
-              {pages.map(({ path, component: Component, exact }) => (
-                <Route
-                  key={path}
-                  path={path}
-                  element={<Component />}
-                  {...(exact && { exact: true })}
-                />
-              ))}
-              {/* Fallback route */}
-              <Route path="*" element={pages[0].component} />
-            </Routes>
-          </Suspense>
-        </Layout>
-      </Router>
-    </ThemeProvider>
+    <ErrorBoundary>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+          <Layout>
+            <Suspense fallback={<LoadingFallback />}>
+              <Routes>
+                {pages.map(({ path, component: Component }) => (
+                  <Route
+                    key={path}
+                    path={path}
+                    element={<Component />}
+                  />
+                ))}
+                {/* Fallback route */}
+                <Route path="*" element={<DefaultPage />} />
+              </Routes>
+            </Suspense>
+          </Layout>
+        </Router>
+      </ThemeProvider>
+    </ErrorBoundary>
   );
 };
 
