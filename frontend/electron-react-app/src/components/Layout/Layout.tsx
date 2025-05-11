@@ -12,10 +12,10 @@ const MainContent = styled('main', {
   shouldForwardProp: (prop) => prop !== 'isMobile' && prop !== 'isSidebarOpen',
 })<{ isMobile: boolean; isSidebarOpen: boolean }>(({ theme, isMobile, isSidebarOpen }) => ({
   position: 'fixed',
-  top: '108px', // 60px header + 48px navbar
-  left: isMobile ? 0 : '240px', // Always maintain fixed position, only change on mobile
+  top: theme.spacing(9.75), // 78px converted to theme spacing
+  left: isMobile ? 0 : theme.spacing(30), // 240px converted to theme spacing
   right: 0,
-  bottom: '60px',
+  bottom: theme.spacing(7.5), // 60px converted to theme spacing
   padding: theme.spacing(3),
   backgroundColor: theme.palette.background.default,
   color: theme.palette.text.primary,
@@ -30,30 +30,30 @@ const MainContent = styled('main', {
   },
 }));
 
-const ContentWrapper = styled('div')({
+const ContentWrapper = styled('div')(({ theme }) => ({
   position: 'relative',
   minHeight: '100vh',
   display: 'flex',
   flexDirection: 'column',
-  backgroundColor: '#000000',
+  backgroundColor: theme.palette.background.default,
   overflow: 'hidden',
-});
+}));
 
 const HeaderWrapper = styled('div')({
   position: 'fixed',
   top: 0,
   left: 0,
   right: 0,
-  zIndex: 1300, // Highest z-index
+  zIndex: 1300,
 });
 
-const NavBarWrapper = styled('div')({
+const NavBarWrapper = styled('div')(({ theme }) => ({
   position: 'fixed',
-  top: '60px', // Position below header
+  top: theme.spacing(3.75), // 30px converted to theme spacing
   left: 0,
   right: 0,
-  zIndex: 1200, // Between header and sidebar
-});
+  zIndex: 1200,
+}));
 
 const FooterWrapper = styled('div')({
   position: 'fixed',
