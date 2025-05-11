@@ -13,7 +13,7 @@ const MainContent = styled('main', {
 })<{ isMobile: boolean; isSidebarOpen: boolean }>(({ theme, isMobile, isSidebarOpen }) => ({
   position: 'fixed',
   top: '108px', // 60px header + 48px navbar
-  left: isMobile ? 0 : (isSidebarOpen ? '240px' : '56px'),
+  left: isMobile ? 0 : '240px', // Always maintain fixed position, only change on mobile
   right: 0,
   bottom: '60px',
   padding: theme.spacing(3),
