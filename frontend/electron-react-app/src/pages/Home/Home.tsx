@@ -1,11 +1,8 @@
 import React from 'react';
+import BasePage from '../../components/common/BasePage';
 
 const Home: React.FC = () => {
-  return (
-    <div>
-      <h2>Home Page</h2>
-    </div>
-  );
+  return <BasePage title="Home Page" />;
 };
 
 export default Home; 
