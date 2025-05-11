@@ -7,7 +7,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 
 // Loading component for lazy-loaded pages
-const PageLoadingFallback: React.FC = () => (
+export const PageLoadingFallback: React.FC = () => (
   <Box
     display="flex"
     justifyContent="center"
