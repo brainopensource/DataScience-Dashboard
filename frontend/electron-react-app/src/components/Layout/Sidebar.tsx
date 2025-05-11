@@ -31,19 +31,32 @@ const StyledDrawer = styled(Drawer)(({ theme }) => ({
     position: 'fixed',
     zIndex: theme.zIndex.drawer,
     overflowX: 'hidden',
-    transition: theme.transitions.create(['width', 'margin'], {
+    transform: 'translateX(0)',
+    transition: theme.transitions.create('transform', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
+    boxShadow: theme.shadows[1], // Added subtle shadow
+  },
+  '& .MuiDrawer-paper.MuiDrawer-paperAnchorLeft.MuiDrawer-paperAnchorDockedLeft': {
+    transform: ({ isOpen }: { isOpen: boolean }) => 
+      isOpen ? 'translateX(0)' : 'translateX(-184px)', // 240px - 56px (collapsed width)
   },
 }));
 
 const MenuButton = styled(IconButton)(({ theme }) => ({
-  margin: theme.spacing(1),
+  position: 'fixed',
+  left: theme.spacing(1),
+  top: '120px', // Moved lower from 108px to 120px
+  zIndex: theme.zIndex.drawer + 1,
   color: theme.palette.primary.main,
+  backgroundColor: theme.palette.background.paper,
+  boxShadow: theme.shadows[2], // Added shadow for depth
   '&:hover': {
     backgroundColor: theme.palette.action.hover,
+    boxShadow: theme.shadows[4], // Enhanced shadow on hover
   },
+  transition: 'box-shadow 0.2s ease-in-out', // Smooth shadow transition
 }));
 
 const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
@@ -55,6 +68,24 @@ const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
     '&:hover': {
       backgroundColor: theme.palette.action.hover,
     },
+    '&::before': {
+      content: '""',
+      position: 'absolute',
+      left: 0,
+      top: 0,
+      bottom: 0,
+      width: 4,
+      backgroundColor: theme.palette.primary.main,
+    },
+  },
+}));
+
+const CollapsedIcon = styled(ListItemIcon)(({ theme }) => ({
+  minWidth: '40px',
+  color: theme.palette.text.primary,
+  justifyContent: 'center',
+  '& .MuiSvgIcon-root': {
+    fontSize: '1.5rem',
   },
 }));
 
@@ -90,24 +121,58 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
 
   const drawer = (
     <>
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', py: 1 }}>
-        <MenuButton onClick={handleMenuClick} aria-label="menu">
-          <MenuIcon />
-        </MenuButton>
+      <Box sx={{ 
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        height: '64px', // Fixed height for the top box
+        mt: 2,
+      }}>
       </Box>
-      <List>
+      <List sx={{ 
+        padding: 0, // Remove all padding
+        margin: 0, // Remove all margin
+        '& .MuiListItem-root': {
+          height: '48px',
+          padding: 0,
+          margin: 0,
+        }
+      }}>
         {pages.map(({ path, title, icon: Icon }) => (
           <ListItem key={path} disablePadding>
             <StyledLink 
               to={path} 
               onClick={isMobile ? onClose : undefined}
               onMouseEnter={() => handleMouseEnter(path)}
+              style={{ display: 'block', height: '48px' }}
             >
-              <StyledListItemButton selected={location.pathname === path}>
-                <ListItemIcon sx={{ color: 'inherit' }}>
+              <StyledListItemButton 
+                selected={location.pathname === path}
+                sx={{
+                  height: '48px',
+                  padding: '0 16px',
+                  margin: 0,
+                }}
+              >
+                <ListItemIcon sx={{ 
+                  color: 'inherit',
+                  minWidth: '40px',
+                  margin: 0,
+                  padding: 0,
+                }}>
                   <Icon />
                 </ListItemIcon>
-                <ListItemText primary={title} />
+                <ListItemText 
+                  primary={title} 
+                  primaryTypographyProps={{
+                    sx: { 
+                      fontSize: '0.95rem',
+                      fontWeight: location.pathname === path ? 600 : 400,
+                      opacity: isOpen ? 1 : 0,
+                      transition: 'opacity 0.2s',
+                    }
+                  }}
+                />
               </StyledListItemButton>
             </StyledLink>
           </ListItem>
@@ -116,39 +181,137 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
     </>
   );
 
-  if (isMobile) {
-    return (
-      <StyledDrawer
-        variant="temporary"
-        open={isOpen}
-        onClose={onClose}
-        ModalProps={{
-          keepMounted: true, // Better open performance on mobile
-        }}
-      >
-        {drawer}
-      </StyledDrawer>
-    );
-  }
+  // Add a collapsed state that shows only icons
+  const collapsedDrawer = (
+    <Box sx={{ 
+      width: '56px',
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      pt: 2,
+    }}>
+      {pages.map(({ path, icon: Icon }) => (
+        <IconButton
+          key={path}
+          component={Link}
+          to={path}
+          sx={{
+            my: 1,
+            color: location.pathname === path ? 'primary.main' : 'text.secondary',
+            '&:hover': {
+              backgroundColor: 'action.hover',
+            },
+          }}
+        >
+          <Icon />
+        </IconButton>
+      ))}
+    </Box>
+  );
 
   return (
-    <StyledDrawer 
-      variant="permanent" 
-      open={isOpen}
-      sx={{
-        display: { xs: 'none', md: 'block' },
-        '& .MuiDrawer-paper': {
-          width: isOpen ? DRAWER_WIDTH : theme.spacing(7),
-          overflowX: 'hidden',
-          transition: theme.transitions.create(['width', 'margin'], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-          }),
-        },
-      }}
-    >
-      {drawer}
-    </StyledDrawer>
+    <>
+      <MenuButton onClick={onClose} aria-label="menu">
+        <MenuIcon />
+      </MenuButton>
+      {isMobile ? (
+        <StyledDrawer
+          variant="temporary"
+          open={isOpen}
+          onClose={onClose}
+          ModalProps={{
+            keepMounted: true,
+          }}
+        >
+          {drawer}
+        </StyledDrawer>
+      ) : (
+        <>
+          <StyledDrawer 
+            variant="permanent" 
+            open={isOpen}
+            sx={{
+              display: { xs: 'none', md: 'block' },
+              '& .MuiDrawer-paper': {
+                width: DRAWER_WIDTH,
+                transform: isOpen ? 'translateX(0)' : 'translateX(-240px)',
+                transition: theme.transitions.create('transform', {
+                  easing: theme.transitions.easing.sharp,
+                  duration: theme.transitions.duration.leavingScreen,
+                }),
+              },
+            }}
+          >
+            {drawer}
+          </StyledDrawer>
+          <Box
+            sx={{
+              position: 'fixed',
+              left: 0,
+              top: '108px',
+              bottom: '60px',
+              width: '56px',
+              backgroundColor: 'background.paper',
+              borderRight: '1px solid',
+              borderColor: 'divider',
+              zIndex: theme.zIndex.drawer,
+              boxShadow: theme.shadows[1],
+              display: isOpen ? 'none' : 'block',
+              transition: 'opacity 0.2s',
+            }}
+          >
+            <Box sx={{ 
+              height: '64px', // Match the height of the top box in drawer
+              mt: 2,
+            }} />
+            <List sx={{ 
+              padding: 0,
+              margin: 0,
+              '& .MuiListItem-root': {
+                height: '48px',
+                padding: 0,
+                margin: 0,
+              }
+            }}>
+              {pages.map(({ path, icon: Icon }) => (
+                <ListItem key={path} disablePadding>
+                  <IconButton
+                    component={Link}
+                    to={path}
+                    sx={{
+                      width: '100%',
+                      height: '48px',
+                      padding: 0,
+                      margin: 0,
+                      borderRadius: 0,
+                      color: location.pathname === path ? 'primary.main' : 'text.secondary',
+                      '&:hover': {
+                        backgroundColor: 'action.hover',
+                      },
+                      '&.Mui-selected': {
+                        backgroundColor: 'action.selected',
+                        '&::before': {
+                          content: '""',
+                          position: 'absolute',
+                          left: 0,
+                          top: 0,
+                          bottom: 0,
+                          width: 4,
+                          backgroundColor: 'primary.main',
+                        },
+                      },
+                    }}
+                  >
+                    <Icon />
+                  </IconButton>
+                </ListItem>
+              ))}
+            </List>
+          </Box>
+        </>
+      )}
+    </>
   );
 };
 
