@@ -90,3 +90,4 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ isOpen, onClose, isMobile }) 
 };
 
 export default SidebarMenu;
+ 
