@@ -5,4 +5,4 @@ const Form: React.FC = () => {
   return <BasePage title="Form" />;
 };
 
-export default Form; 
+export default Form;

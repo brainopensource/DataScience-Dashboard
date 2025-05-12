@@ -9,7 +9,7 @@ import Footer from './Footer';
 import NavBar from './NavBar';
 
 const MainContent = styled('main', {
-  shouldForwardProp: (prop) => prop !== 'isMobile' && prop !== 'isSidebarOpen',
+  shouldForwardProp: prop => prop !== 'isMobile' && prop !== 'isSidebarOpen',
 })<{ isMobile: boolean; isSidebarOpen: boolean }>(({ theme, isMobile, isSidebarOpen }) => ({
   position: 'fixed',
   top: theme.spacing(9.75), // 78px converted to theme spacing
@@ -109,4 +109,4 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   );
 };
 
-export default Layout; 
+export default Layout;

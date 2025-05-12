@@ -1,6 +1,10 @@
 import React from 'react';
-import { styled, useTheme } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import { AppBar, Toolbar, Typography, Box } from '@mui/material';
+
+const NavBarContainer = styled(AppBar)(() => ({
+  backgroundColor: '#030510',
+}));
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
   backgroundColor: '#030510',
@@ -21,15 +25,17 @@ const NavBar: React.FC = () => {
   return (
     <StyledAppBar position="fixed">
       <StyledToolbar>
-        <Box sx={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          width: '100%',
-          backgroundColor: '#030510',
-        }}>
-          <Typography 
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            width: '100%',
+            backgroundColor: '#030510',
+          }}
+        >
+          <Typography
             variant="h6"
-            sx={{ 
+            sx={{
               color: 'primary.main',
               fontWeight: 600,
               letterSpacing: '0.5px',
@@ -45,4 +51,4 @@ const NavBar: React.FC = () => {
   );
 };
 
-export default NavBar; 
+export default NavBar;
