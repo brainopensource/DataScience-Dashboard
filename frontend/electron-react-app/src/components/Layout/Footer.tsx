@@ -8,7 +8,8 @@ const StyledAppBar = styled(AppBar)(({ theme }) => ({
   top: 'auto',
   bottom: 0,
   boxShadow: 'none',
-  borderTop: 'none',
+  border: '1px solid transparent',
+  borderImage: 'linear-gradient(45deg, #2196F3 30%, #9C27B0 90%) 1',
 }));
 
 const StyledToolbar = styled(Toolbar)({

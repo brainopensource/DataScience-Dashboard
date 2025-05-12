@@ -8,15 +8,24 @@ const NavBarContainer = styled(AppBar)(() => ({
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
   backgroundColor: '#030510',
+  position: 'relative',
   top: '30px',
-  height: '48px',
+  height: '56px',
   boxShadow: 'none',
-  zIndex: 1200,
-  borderBottom: 'none',
+  zIndex: theme.zIndex.appBar,
+  '&::after': {
+    content: '""',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: '2px',
+    background: 'linear-gradient(45deg, #2196F3 30%, #9C27B0 90%)',
+  },
 }));
 
 const StyledToolbar = styled(Toolbar)({
-  minHeight: '48px',
+  minHeight: '56px',
   padding: '0 20px',
   backgroundColor: '#030510',
 });

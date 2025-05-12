@@ -7,14 +7,14 @@ import { useTheme } from '@mui/material/styles';
 
 interface InformationGridProps {
   content: InformationContent;
-  variant?: 'default' | 'compact' | 'elevated';
   containerSx?: React.CSSProperties;
+  showHeader?: boolean;
 }
 
 export const InformationGrid: React.FC<InformationGridProps> = ({
   content,
-  variant = 'default',
   containerSx,
+  showHeader = true,
 }) => {
   const theme = useTheme();
 
@@ -31,12 +31,9 @@ export const InformationGrid: React.FC<InformationGridProps> = ({
               content: content.description,
               color: 'primary',
             }}
-            variant="elevated"
           />
         ),
         xs: 12,
-        sm: 12,
-        md: 12,
       },
     ],
   };
@@ -45,14 +42,17 @@ export const InformationGrid: React.FC<InformationGridProps> = ({
     id: section.id,
     items: section.cards.map(card => ({
       id: card.id,
-      component: <InformationCard key={card.id} card={card} variant={variant} />,
+      component: <InformationCard key={card.id} card={card} />,
       xs: 12,
       sm: 6,
       md: 6,
     })),
   }));
 
-  const rows = [headerRow, ...informationRows];
+  const rows = [
+    ...(showHeader ? [headerRow] : []),
+    ...informationRows,
+  ];
 
   return (
     <BaseGrid
@@ -66,3 +66,4 @@ export const InformationGrid: React.FC<InformationGridProps> = ({
     />
   );
 };
+ 
