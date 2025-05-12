@@ -9,6 +9,9 @@ import {
   Theme,
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
+import { createCardStyles } from './styles/cardStyles';
+
+type ThemeColor = 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';
 
 export interface BaseCardProps {
   // Basic props
@@ -17,7 +20,7 @@ export interface BaseCardProps {
   subtitle?: string;
 
   // Styling
-  color?: 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success';
+  color?: ThemeColor;
   height?: string | number;
   customSx?: SxProps<Theme>;
 
@@ -62,44 +65,27 @@ export const BaseCard: React.FC<BaseCardProps> = ({
   elevation = 1,
 }) => {
   const theme = useTheme();
+  const styles = createCardStyles(theme);
 
-  const getVariantStyles = (): SxProps<Theme> => {
+  const getVariantStyle = (): SxProps<Theme> => {
     switch (variant) {
       case 'compact':
-        return {
-          p: 2,
-          height: 'auto',
-        };
+        return styles.compact;
       case 'elevated':
-        return {
-          p: 4,
-          boxShadow: theme.shadows[4],
-        };
+        return styles.elevated;
       default:
         return {
-          p: 3,
+          ...styles.base,
           height,
         };
     }
   };
 
   const baseStyles: SxProps<Theme> = {
-    ...getVariantStyles(),
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    bgcolor: theme.palette.background.paper,
-    borderRadius: 2,
-    boxShadow: theme.shadows[elevation],
-    transition: theme.transitions.create(['transform', 'box-shadow'], {
-      duration: theme.transitions.duration.shorter,
-    }),
-    borderLeft: `4px solid ${theme.palette[color].main}`,
-    '&:hover': {
-      transform: 'translateY(-4px)',
-      boxShadow: theme.shadows[elevation + 2],
-      cursor: onClick ? 'pointer' : 'default',
-    },
+    ...getVariantStyle(),
+    ...styles.getColorBorder(color),
+    ...styles.getHoverTransition(),
+    cursor: onClick ? 'pointer' : 'default',
   };
 
   return (
@@ -111,10 +97,11 @@ export const BaseCard: React.FC<BaseCardProps> = ({
             subheader={subtitle}
             titleTypographyProps={{ variant: 'h6', color: 'textPrimary' }}
             subheaderTypographyProps={{ variant: 'body2', color: 'textSecondary' }}
+            sx={styles.header}
           />
         ))}
 
-      <CardContent sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+      <CardContent sx={styles.content}>
         {contentComponent ||
           (content && (
             <Typography variant="body1" color="textSecondary" sx={{ whiteSpace: 'pre-line' }}>
@@ -124,7 +111,7 @@ export const BaseCard: React.FC<BaseCardProps> = ({
       </CardContent>
 
       {(actionComponent || (onAction && actionLabel)) && (
-        <CardActions>
+        <CardActions sx={styles.actions}>
           {actionComponent || (
             <Typography
               variant="button"

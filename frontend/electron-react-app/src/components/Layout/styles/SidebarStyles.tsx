@@ -76,12 +76,12 @@ export const MenuButton = styled(IconButton)(({ theme }) => ({
 
 export const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
   '&:hover': {
-    backgroundColor: 'rgba(0, 36, 254, 0.08)',
+    backgroundColor: 'rgba(33, 150, 243, 0.08)',
   },
   '&.Mui-selected': {
-    backgroundColor: 'rgba(0, 36, 254, 0.12)',
+    backgroundColor: 'rgba(156, 39, 176, 0.12)',
     '&:hover': {
-      backgroundColor: 'rgba(0, 36, 254, 0.16)',
+      backgroundColor: 'rgba(156, 39, 176, 0.16)',
     },
     '&::before': {
       content: '""',
@@ -90,7 +90,7 @@ export const StyledListItemButton = styled(ListItemButton)(({ theme }) => ({
       top: 0,
       bottom: 0,
       width: 4,
-      backgroundColor: '#0024fe',
+      backgroundColor: '#9C27B0',
     },
   },
 }));

@@ -1,6 +1,8 @@
 import React from 'react';
-import { Box, Container, Grid, Paper, useTheme } from '@mui/material';
-import { ModularGridProps, GridRow } from '../../types/grid';
+import { Box, Container, Grid, Paper, useTheme, SxProps, Theme } from '@mui/material';
+import { ModularGridProps } from '../../types/grid';
+import { GridRow } from '../../types/common/grid';
+import { createGridStyles } from './styles/gridStyles';
 
 const ModularGrid: React.FC<ModularGridProps> = ({
   rows,
@@ -13,6 +15,7 @@ const ModularGrid: React.FC<ModularGridProps> = ({
   borderRadius = 0,
 }) => {
   const theme = useTheme();
+  const styles = createGridStyles(theme);
 
   const getPadding = () => {
     if (typeof padding === 'number') {
@@ -22,19 +25,31 @@ const ModularGrid: React.FC<ModularGridProps> = ({
   };
 
   return (
-    <Container maxWidth={maxWidth} sx={containerSx}>
+    <Container 
+      maxWidth={maxWidth} 
+      sx={[
+        styles.modularContainer,
+        containerSx,
+      ]}
+    >
       <Paper
         elevation={elevation}
-        sx={{
-          p: getPadding(),
-          backgroundColor: backgroundColor || 'transparent',
-          borderRadius,
-          height: '100%',
-        }}
+        sx={[
+          styles.modularPaper(backgroundColor, borderRadius),
+          { p: getPadding() },
+        ]}
       >
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: spacing }}>
+        <Box sx={styles.modularContent(spacing)}>
           {rows.map((row: GridRow) => (
-            <Grid key={row.id} container spacing={spacing} sx={row.rowSx}>
+            <Grid 
+              key={row.id} 
+              container 
+              spacing={spacing} 
+              sx={[
+                styles.row,
+                row.rowSx,
+              ]}
+            >
               {row.items.map(item => (
                 <Grid
                   key={item.id}
@@ -44,7 +59,10 @@ const ModularGrid: React.FC<ModularGridProps> = ({
                   md={item.md}
                   lg={item.lg}
                   xl={item.xl}
-                  sx={item.itemSx}
+                  sx={[
+                    styles.item,
+                    item.itemSx,
+                  ]}
                 >
                   {React.isValidElement(item.component)
                     ? React.cloneElement(item.component, item.props)

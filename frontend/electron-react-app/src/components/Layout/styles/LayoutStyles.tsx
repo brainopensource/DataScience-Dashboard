@@ -35,13 +35,13 @@ export const NavBarWrapper = styled('div')(({ theme }) => ({
   zIndex: 1200,
 }));
 
-export const FooterWrapper = styled('div')({
+export const FooterWrapper = styled('div')(({ theme }) => ({
   position: 'fixed',
-  bottom: 0,
+  bottom: theme.spacing(0.5),
   left: 0,
   right: 0,
   zIndex: 1200,
-});
+}));
 
 export const MobileMenuButton = styled(IconButton)(({ theme }) => ({
   position: 'fixed',

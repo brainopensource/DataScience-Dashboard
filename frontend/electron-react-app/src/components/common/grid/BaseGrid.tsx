@@ -1,20 +1,6 @@
 import React from 'react';
 import { Grid, GridProps } from '@mui/material';
-
-interface GridItem {
-  id: string;
-  component: React.ReactNode;
-  xs?: number;
-  sm?: number;
-  md?: number;
-  lg?: number;
-  xl?: number;
-}
-
-interface GridRow {
-  id: string;
-  items: GridItem[];
-}
+import { GridRow, GridItem } from '../../../types/common/grid';
 
 interface BaseGridProps extends GridProps {
   rows: GridRow[];
@@ -31,7 +17,7 @@ export const BaseGrid: React.FC<BaseGridProps> = ({ rows, spacing = 3, container
           container
           item
           spacing={spacing}
-          sx={{ width: '100%', margin: 0 }}
+          sx={{ width: '100%', margin: 0, ...row.rowSx }}
         >
           {row.items.map(item => (
             <Grid
@@ -42,8 +28,11 @@ export const BaseGrid: React.FC<BaseGridProps> = ({ rows, spacing = 3, container
               md={item.md}
               lg={item.lg}
               xl={item.xl}
+              sx={item.itemSx}
             >
-              {item.component}
+              {React.isValidElement(item.component)
+                ? React.cloneElement(item.component, item.props)
+                : item.component}
             </Grid>
           ))}
         </Grid>
