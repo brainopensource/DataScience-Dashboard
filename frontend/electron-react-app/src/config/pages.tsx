@@ -2,18 +2,14 @@ import React from 'react';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import HomeIcon from '@mui/icons-material/Home';
 import FormIcon from '@mui/icons-material/Description';
+import InfoIcon from '@mui/icons-material/Info';
 import { lazyLoad } from '../utils/lazyLoad';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 
 // Loading component for lazy-loaded pages
 export const PageLoadingFallback: React.FC = () => (
-  <Box
-    display="flex"
-    justifyContent="center"
-    alignItems="center"
-    minHeight="100vh"
-  >
+  <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
     <CircularProgress color="primary" />
   </Box>
 );
@@ -44,6 +40,14 @@ const pages = {
     title: 'Form',
     icon: FormIcon,
   },
+  informations: {
+    path: '/informations',
+    component: lazyLoad(() => import('../pages/Informations/Informations'), {
+      fallback: <PageLoadingFallback />,
+    }),
+    title: 'Informations',
+    icon: InfoIcon,
+  },
 } as const;
 
 // Type for page configuration
@@ -66,4 +70,4 @@ export const getPage = (key: PageKey): PageConfig => pages[key];
 // Helper to get all page keys
 export const getPageKeys = (): PageKey[] => Object.keys(pages) as PageKey[];
 
-export default pages; 
+export default pages;

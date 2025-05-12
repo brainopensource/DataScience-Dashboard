@@ -1,5 +1,5 @@
 import React from 'react';
-import { styled, useTheme } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import { AppBar, Toolbar, Typography, Box } from '@mui/material';
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
@@ -17,22 +17,32 @@ const StyledToolbar = styled(Toolbar)({
   backgroundColor: '#030510',
 });
 
+const FooterContainer = styled(Box)(() => ({
+  display: 'flex',
+  alignItems: 'center',
+  width: '100%',
+  padding: '1rem',
+  borderTop: '1px solid rgba(0, 0, 0, 0.12)',
+}));
+
 const Footer = () => {
   return (
     <StyledAppBar position="fixed">
       <StyledToolbar>
-        <Box sx={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          width: '100%', 
-          justifyContent: 'center',
-          backgroundColor: '#030510',
-        }}>
-          <Typography 
-            variant="body2" 
-            sx={{ 
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            width: '100%',
+            justifyContent: 'center',
+            backgroundColor: '#030510',
+          }}
+        >
+          <Typography
+            variant="body2"
+            sx={{
               color: 'primary.main',
-              fontWeight: 500
+              fontWeight: 500,
             }}
           >
             © 2024 React FastAPI
@@ -43,4 +53,4 @@ const Footer = () => {
   );
 };
 
-export default Footer; 
+export default Footer;

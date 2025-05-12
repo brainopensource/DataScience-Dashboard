@@ -1,6 +1,10 @@
 import React from 'react';
-import { styled, useTheme } from '@mui/material/styles';
-import { AppBar, Toolbar } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { AppBar, Toolbar, Typography, Box } from '@mui/material';
+
+const HeaderContainer = styled(AppBar)(() => ({
+  backgroundColor: '#030510',
+}));
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
   backgroundColor: '#000000',
@@ -22,4 +26,4 @@ const Header = () => {
   );
 };
 
-export default Header; 
+export default Header;

@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Layout from './components/Layout/Layout';
-import ErrorBoundary from './components/common/ErrorBoundary';
+import { ErrorBoundary } from './components/common/ErrorBoundary';
 import theme from './theme';
 import { getPages } from './config/pages';
 import { PageLoadingFallback } from './config/pages';
@@ -21,11 +21,7 @@ const App: React.FC = () => {
             <Suspense fallback={<PageLoadingFallback />}>
               <Routes>
                 {pages.map(({ path, component: Component }) => (
-                  <Route
-                    key={path}
-                    path={path}
-                    element={<Component />}
-                  />
+                  <Route key={path} path={path} element={<Component />} />
                 ))}
                 {/* Fallback route */}
                 <Route path="*" element={<DefaultPage />} />

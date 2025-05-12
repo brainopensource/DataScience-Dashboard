@@ -10,7 +10,7 @@ interface UseApiOptions<T> {
 export function useApi<T = any>() {
   const [data, setData] = useState<T | null>(null);
   const [error, setError] = useState<Error | null>(null);
-  const setLoading = useStore((state) => state.setLoading);
+  const setLoading = useStore(state => state.setLoading);
 
   const execute = useCallback(
     async <R = T>(
@@ -47,4 +47,4 @@ export function useApi<T = any>() {
       setError(null);
     },
   };
-} 
+}
