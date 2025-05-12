@@ -1,23 +1,6 @@
 import { ReactNode } from 'react';
 import { SxProps, Theme } from '@mui/material';
-
-export interface GridItem {
-  id: string;
-  component: ReactNode;
-  props?: Record<string, any>;
-  xs?: number; // 1-12 for extra small screens
-  sm?: number; // 1-12 for small screens
-  md?: number; // 1-12 for medium screens
-  lg?: number; // 1-12 for large screens
-  xl?: number; // 1-12 for extra large screens
-  itemSx?: SxProps<Theme>;
-}
-
-export interface GridRow {
-  id: string;
-  items: GridItem[];
-  rowSx?: SxProps<Theme>;
-}
+import { GridRow } from './common/grid';
 
 export interface ModularGridProps {
   rows: GridRow[];

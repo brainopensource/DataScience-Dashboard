@@ -4,7 +4,7 @@ import { useTheme } from '@mui/material/styles';
 import { GridCard, GridText, GridImage } from '../../grid/GridComponents';
 import { DashboardContent } from '../../../types/dashboard/dashboard';
 import { GridRow } from '../../../types/common/grid';
-import GradientButton from '../../common/GradientButton';
+import BaseButton from '../../common/BaseButton';
 
 interface DashboardGridProps {
   content: DashboardContent;
@@ -108,9 +108,14 @@ export const DashboardGrid: React.FC<DashboardGridProps> = ({
           title={action.title}
           content={action.content}
           actions={
-            <GradientButton variant={action.buttonVariant}>
+            <BaseButton
+              variant={action.buttonVariant === 'contained' ? 'primary' : 'secondary'}
+              customSx={{
+                backgroundImage: action.buttonVariant === 'contained' ? 'linear-gradient(45deg, #2196F3 30%, #9C27B0 90%)' : undefined,
+              }}
+            >
               {action.buttonText}
-            </GradientButton>
+            </BaseButton>
           }
           cardSx={{ textAlign: 'center' }}
         />

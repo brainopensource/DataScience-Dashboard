@@ -4,26 +4,38 @@ import { AppBar, Toolbar, Typography, Box } from '@mui/material';
 
 const StyledAppBar = styled(AppBar)(({ theme }) => ({
   backgroundColor: '#030510',
-  height: '60px',
+  height: theme.spacing(7.5), // 60px
   top: 'auto',
-  bottom: 0,
+  bottom: theme.spacing(0.5),
   boxShadow: 'none',
   border: '1px solid transparent',
   borderImage: 'linear-gradient(45deg, #2196F3 30%, #9C27B0 90%) 1',
+  padding: '1px',
+  '&::before': {
+    content: '""',
+    position: 'absolute',
+    top: -1,
+    left: -1,
+    right: -1,
+    height: '1px',
+    background: 'linear-gradient(45deg, #2196F3 30%, #9C27B0 90%)',
+  },
+  '&::after': {
+    content: '""',
+    position: 'absolute',
+    bottom: -1,
+    left: -1,
+    right: -1,
+    height: '1px',
+    background: 'linear-gradient(45deg, #2196F3 30%, #9C27B0 90%)',
+  },
 }));
 
-const StyledToolbar = styled(Toolbar)({
-  minHeight: '60px',
+const StyledToolbar = styled(Toolbar)(({ theme }) => ({
+  minHeight: theme.spacing(7.5), // 60px
   padding: '0 20px',
   backgroundColor: '#030510',
-});
-
-const FooterContainer = styled(Box)(() => ({
-  display: 'flex',
-  alignItems: 'center',
-  width: '100%',
-  padding: '1rem',
-  borderTop: '1px solid rgba(0, 0, 0, 0.12)',
+  position: 'relative',
 }));
 
 const Footer = () => {

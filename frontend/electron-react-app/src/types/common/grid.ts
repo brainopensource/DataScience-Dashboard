@@ -4,16 +4,19 @@ import { SxProps, Theme } from '@mui/material';
 export interface GridItem {
   id: string;
   component: ReactNode;
+  props?: Record<string, any>;
   xs?: number;
   sm?: number;
   md?: number;
   lg?: number;
   xl?: number;
+  itemSx?: SxProps<Theme>;
 }
 
 export interface GridRow {
   id: string;
   items: GridItem[];
+  rowSx?: SxProps<Theme>;
 }
 
 export interface GridContainerProps {
