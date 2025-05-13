@@ -5,4 +5,4 @@ const Home: React.FC = () => {
   return <BasePage title="Home Page" />;
 };
 
-export default Home; 
+export default Home;

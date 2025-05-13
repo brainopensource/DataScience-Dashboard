@@ -22,7 +22,7 @@ api.interceptors.request.use(
     }
     return config;
   },
-  (error) => {
+  error => {
     return Promise.reject(error);
   }
 );
@@ -30,7 +30,7 @@ api.interceptors.request.use(
 // Response interceptor
 api.interceptors.response.use(
   (response: AxiosResponse) => response,
-  async (error) => {
+  async error => {
     if (error.response?.status === 401) {
       // Handle unauthorized access
       useStore.getState().setAuth(null);
@@ -42,16 +42,16 @@ api.interceptors.response.use(
 // API methods
 export const apiService = {
   get: <T>(url: string, config?: AxiosRequestConfig) =>
-    api.get<T>(url, config).then((response) => response.data),
+    api.get<T>(url, config).then(response => response.data),
 
   post: <T>(url: string, data?: any, config?: AxiosRequestConfig) =>
-    api.post<T>(url, data, config).then((response) => response.data),
+    api.post<T>(url, data, config).then(response => response.data),
 
   put: <T>(url: string, data?: any, config?: AxiosRequestConfig) =>
-    api.put<T>(url, data, config).then((response) => response.data),
+    api.put<T>(url, data, config).then(response => response.data),
 
   delete: <T>(url: string, config?: AxiosRequestConfig) =>
-    api.delete<T>(url, config).then((response) => response.data),
+    api.delete<T>(url, config).then(response => response.data),
 };
 
-export default apiService; 
+export default apiService;

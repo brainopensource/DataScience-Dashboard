@@ -1,28 +1,49 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme, Theme } from '@mui/material/styles';
 
+// Define theme colors and other constants
+const themeColors = {
+  primary: '#2196f3',
+  primaryDark: '#1976d2', // Darker shade of primary for hover
+  background: {
+    default: '#000000',
+    paper: '#1a1a1a',
+  },
+};
+
+// Create the theme
 const theme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#2196f3',
+      main: themeColors.primary,
+      dark: themeColors.primaryDark,
     },
     background: {
-      default: '#000000',
-      paper: '#1a1a1a',
+      default: themeColors.background.default,
+      paper: themeColors.background.paper,
     },
   },
   components: {
     MuiCssBaseline: {
       styleOverrides: {
-        body: {
-          scrollbarColor: '#2196f3 #1a1a1a',
-          '&::-webkit-scrollbar': {
-            width: '8px',
-          },
-          '&::-webkit-scrollbar-thumb': {
-            backgroundColor: '#2196f3',
-            borderRadius: 8,
-          },
+        '*': {
+          scrollbarWidth: 'thin',           // Firefox
+          msOverflowStyle: 'none',         // IE 10+
+        },
+        '*::-webkit-scrollbar': {
+          width: '8px',
+        },
+        '*::-webkit-scrollbar-track': {
+          background: themeColors.background.default,
+        },
+        '*::-webkit-scrollbar-thumb': {
+          backgroundColor: themeColors.primary,
+          borderRadius: '4px',
+          border: '2px solid transparent',
+          backgroundClip: 'content-box',
+        },
+        '*::-webkit-scrollbar-thumb:hover': {
+          backgroundColor: themeColors.primaryDark,
         },
       },
     },
@@ -45,4 +66,4 @@ const theme = createTheme({
   },
 });
 
-export default theme; 
+export default theme;
