@@ -27,4 +27,4 @@ export function lazyLoad<T extends ComponentType<any>>(
   Wrapper.preload = importFunc;
 
   return Wrapper;
-} 
+}

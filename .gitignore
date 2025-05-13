@@ -40,3 +40,20 @@ Thumbs.db
 
 # Ignore package-lock.json inside frontend/electron-react-app
 frontend/electron-react-app/package-lock.json
+
+# Passwords
+credentials.py
+
+# Cache and pycache
+data/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyw
+*.pyz
+*.pywz
+.venv/
+
+# Ignore venv
+venv/

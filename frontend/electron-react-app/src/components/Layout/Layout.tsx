@@ -6,15 +6,16 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Sidebar from './Sidebar';
 import Header from './Header';
 import Footer from './Footer';
+import NavBar from './NavBar';
 
 const MainContent = styled('main', {
-  shouldForwardProp: (prop) => prop !== 'isMobile' && prop !== 'isSidebarOpen',
+  shouldForwardProp: prop => prop !== 'isMobile' && prop !== 'isSidebarOpen',
 })<{ isMobile: boolean; isSidebarOpen: boolean }>(({ theme, isMobile, isSidebarOpen }) => ({
   position: 'fixed',
-  top: '60px',
-  left: isMobile ? 0 : (isSidebarOpen ? '240px' : 0),
+  top: theme.spacing(9.75), // 78px converted to theme spacing
+  left: isMobile ? 0 : theme.spacing(30), // 240px converted to theme spacing
   right: 0,
-  bottom: '60px',
+  bottom: theme.spacing(7.5), // 60px converted to theme spacing
   padding: theme.spacing(3),
   backgroundColor: theme.palette.background.default,
   color: theme.palette.text.primary,
@@ -29,22 +30,30 @@ const MainContent = styled('main', {
   },
 }));
 
-const ContentWrapper = styled('div')({
+const ContentWrapper = styled('div')(({ theme }) => ({
   position: 'relative',
   minHeight: '100vh',
   display: 'flex',
   flexDirection: 'column',
-  backgroundColor: '#000000',
+  backgroundColor: theme.palette.background.default,
   overflow: 'hidden',
-});
+}));
 
 const HeaderWrapper = styled('div')({
   position: 'fixed',
   top: 0,
   left: 0,
   right: 0,
-  zIndex: 1200,
+  zIndex: 1300,
 });
+
+const NavBarWrapper = styled('div')(({ theme }) => ({
+  position: 'fixed',
+  top: theme.spacing(3.75), // 30px converted to theme spacing
+  left: 0,
+  right: 0,
+  zIndex: 1200,
+}));
 
 const FooterWrapper = styled('div')({
   position: 'fixed',
@@ -81,12 +90,15 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       <HeaderWrapper>
         <Header />
       </HeaderWrapper>
+      <NavBarWrapper>
+        <NavBar />
+      </NavBarWrapper>
       {isMobile && (
         <MobileMenuButton onClick={toggleSidebar} aria-label="menu">
           <MenuIcon />
         </MobileMenuButton>
       )}
-      <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+      <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar} />
       <MainContent isMobile={isMobile} isSidebarOpen={isSidebarOpen}>
         {children}
       </MainContent>
@@ -97,4 +109,4 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   );
 };
 
-export default Layout; 
+export default Layout;
