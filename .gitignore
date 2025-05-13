@@ -62,3 +62,4 @@ backend/app/utils/bulk.py
 backend/app/utils/S3.py
 backend/app/utils/odata.py
 
+env/
