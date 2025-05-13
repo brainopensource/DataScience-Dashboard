@@ -73,9 +73,9 @@ PRODUCTION_SCHEMA = TableSchema(
         ),
         ColumnDefinition(
             name="production_period",
-            type=ColumnType.TIMESTAMP,
+            type=ColumnType.VARCHAR,
             nullable=False,
-            description="Production period timestamp"
+            description="Production period timestamp (ISO format string)"
         ),
         ColumnDefinition(
             name="oil_production_kbd",
@@ -89,9 +89,9 @@ PRODUCTION_SCHEMA = TableSchema(
         ),
         ColumnDefinition(
             name="created_at",
-            type=ColumnType.TIMESTAMP,
+            type=ColumnType.VARCHAR,
             default="CURRENT_TIMESTAMP",
-            description="Record creation timestamp"
+            description="Record creation timestamp (ISO format string)"
         )
     ]
 )

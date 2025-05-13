@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from typing import List, Dict, Optional, Any
+from pydantic import BaseModel
 import os
 from dotenv import load_dotenv
 from app.services.database_service import DatabaseService
@@ -14,6 +15,10 @@ load_dotenv()
 # Initialize services
 db_service = DatabaseService()
 production_service = ProductionService(db_service)
+
+class SyncDataRequest(BaseModel):
+    start_date: str
+    end_date: str
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -42,14 +47,20 @@ app.add_middleware(
 )
 
 @app.post("/sync-data")
-async def sync_data():
+async def sync_data(request: SyncDataRequest):
     """
     Sync data from external API
     """
-    success = await production_service.sync_production_data()
-    if not success:
-        raise HTTPException(status_code=500, detail="Failed to sync data")
-    return {"message": "Data synced successfully"}
+    try:
+        success = await production_service.sync_production_data(
+            start_date=request.start_date,
+            end_date=request.end_date
+        )
+        if not success:
+            raise HTTPException(status_code=500, detail="Failed to sync data")
+        return {"message": "Data synced successfully"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/query")
 async def query_data(
@@ -64,21 +75,11 @@ async def query_data(
     """
     Query production data with filters
     """
-    filters = {}
-    if field_code:
-        filters['field_code'] = field_code
-    if field_name:
-        filters['field_name'] = field_name
-    if start_date or end_date:
-        filters['production_period'] = {}
-        if start_date:
-            filters['production_period']['start'] = start_date
-        if end_date:
-            filters['production_period']['end'] = end_date
-    
     try:
         data = await production_service.query_production_data(
-            filters=filters,
+            field_id=field_code,  # Map field_code to field_id
+            start_date=start_date,
+            end_date=end_date,
             limit=limit,
             offset=offset,
             order_by=order_by

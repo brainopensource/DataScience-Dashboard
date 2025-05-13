@@ -43,6 +43,7 @@ frontend/electron-react-app/package-lock.json
 
 # Passwords
 credentials.py
+backend/env.txt
 
 # Cache and pycache
 data/

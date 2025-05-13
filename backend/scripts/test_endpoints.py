@@ -13,8 +13,7 @@ load_dotenv()
 
 # API Configuration
 BASE_URL = "http://localhost:8000"
-#USERNAME = os.getenv("WOODMAC_USERNAME")
-#PASSWORD = os.getenv("WOODMAC_PASSWORD")
+
 
 class APITester:
     def __init__(self, base_url: str = BASE_URL):
@@ -86,11 +85,22 @@ class APITester:
         """Test the sync-data endpoint"""
         self.print_section("Testing Sync Data Endpoint")
         
-        result = self.test_endpoint("POST", "/sync-data")
+        # Calculate date range (last 3 months)
+        end_date = datetime.now()
+        start_date = end_date - timedelta(days=90)
+        
+        params = {
+            "start_date": start_date.strftime("%Y-%m-%d"),
+            "end_date": end_date.strftime("%Y-%m-%d")
+        }
+        
+        result = self.test_endpoint("POST", "/sync-data", json=params)
         if result["success"]:
             print(f"Response: {result['data']}")
         else:
             print(f"Error: {result['error']}")
+            if isinstance(result['error'], dict):
+                print(f"Error details: {json.dumps(result['error'], indent=2)}")
     
     def test_query_data(self):
         """Test the query endpoint with various filters"""
@@ -185,13 +195,13 @@ def main():
         tester = APITester()
         
         # First sync the data
-        # tester.test_sync_data()
+        tester.test_sync_data()
         
         # Then test querying
         tester.test_query_data()
         
         # Finally test aggregation
-        #tester.test_aggregate_data()
+        # tester.test_aggregate_data()
         
     except requests.exceptions.ConnectionError:
         print("\nError: Could not connect to the API. Make sure the server is running at http://localhost:8000")

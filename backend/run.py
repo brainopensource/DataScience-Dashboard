@@ -1,14 +1,15 @@
 import uvicorn
 from dotenv import load_dotenv
-import os
+from app.config import settings
 
+# Load environment variables
 load_dotenv()
 
 if __name__ == "__main__":
     uvicorn.run(
         "app.main:app",
-        host=os.getenv("HOST", "0.0.0.0"),
-        port=int(os.getenv("PORT", 8000)),
-        workers=int(os.getenv("WORKERS", 4)),
-        reload=os.getenv("RELOAD", "True").lower() == "true"
+        host=settings.HOST,
+        port=settings.PORT,
+        workers=settings.WORKERS,
+        reload=settings.RELOAD
     ) 
